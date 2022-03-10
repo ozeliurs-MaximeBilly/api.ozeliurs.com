@@ -5,24 +5,24 @@ from flask import Flask, jsonify
 app = Flask(__name__)
 
 
-@app.route('/')
+@app.route("/")
 def hello_world():  # put application's code here
     return 'Hello World!'
 
 
-@app.route('/hothothot/capteurs')
+@app.route("/hothothot/capteurs/")
 def hothothot():
     with open("/data/hothothot.log", "r", encoding="utf8") as log:
         hist = log.read()
         
-    return jsonify(json.loads(hist.split("\n")[-1]))
+    return jsonify(json.loads(hist.split("\n")[-2]))
 
 
-@app.route('/hothothot/hist')
+@app.route("/hothothot/hist/")
 def hothothot_hist():
     with open("/data/hothothot.log", "r", encoding="utf8") as log:
         hist = log.read()
-        hist = [json.loads(x) for x in hist.split("\n")[-48:]]
+        hist = [json.loads(x) for x in hist.split("\n")[-48:-1]]
     
     return jsonify(hist)
 
