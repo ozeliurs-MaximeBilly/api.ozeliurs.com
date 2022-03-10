@@ -30,13 +30,4 @@ jobs:
         USERNAME: ${{ secrets.USER }}
         PORT: ${{ secrets.PORT }}
         KEY: ${{ secrets.SSHKEY }}
-        script: sudo touch /var/www/api/tmp && \
-        sudo rm -r /var/www/api/* && \
-        sudo cp /tmp/api.ozeliurs.com/www/* /var/www/api/ && \
-        sudo pip install -r /var/www/api/requirements.txt && \
-        sudo rm /etc/systemd/system/api.ozeliurs.com.service && \
-        sudo cp /tmp/api.ozeliurs.com/api.ozeliurs.com.service /etc/systemd/system/ && \
-        sudo rm -r /tmp/api.ozeliurs.com && \
-        sudo chown -R www-data /var/www/api/ && \
-        sudo systemctl daemon-reload && \
-        sudo systemctl restart api.ozeliurs.com.service
+        script: sudo bash /tmp/api.ozeliurs.com/update.sh
