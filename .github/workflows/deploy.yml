@@ -22,3 +22,12 @@ jobs:
       with:
         source: "./"
         target: "/tmp/api.ozeliurs.com"
+
+    - name: Delete contents of server folder and copy
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        USERNAME: ${{ secrets.USER }}
+        PORT: ${{ secrets.PORT }}
+        KEY: ${{ secrets.SSHKEY }}
+        script: sudo touch /var/www/api/tmp && sudo rm -r /var/www/api/* && sudo cp /tmp/api.ozeliurs.com/www/* /var/www/api/ && sudo cp /tmp/api.ozeliurs.com/api.ozeliurs.com.service /etc/systemd/system/ && sudo rm /tmp/api.ozeliurs.com && sudo systemctl restart api.ozeliurs.com.service
