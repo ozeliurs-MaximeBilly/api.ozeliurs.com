@@ -19,7 +19,7 @@ def hothothot():
 
 
 @app.route('/hothothot/hist')
-def hothothot_hist()
+def hothothot_hist():
     with open("hothothot.log", "r", encoding="utf8") as log:
         hist = log.read()
         hist = [json.loads(x) for x in hist.split("\n")[-48:]]
