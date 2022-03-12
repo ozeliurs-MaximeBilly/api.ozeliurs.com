@@ -39,7 +39,7 @@ def allumes():
 def allumes_hist():
     with open("/data/allumes.log", "r", encoding="utf8") as log:
         hist = log.read()
-        hist = [json.loads(x) for x in hist.split("\n")[-48:-1]]
+        hist = [json.loads(x) for x in hist.split("\n")[:-1]]
 
     return jsonify(hist)
 
