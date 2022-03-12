@@ -40,8 +40,16 @@ def allumes_hist():
     with open("/data/allumes.log", "r", encoding="utf8") as log:
         hist = log.read()
         hist = [json.loads(x) for x in hist.split("\n")[:-1]]
+        
+        
+@app.route("/allumes/last/")
+def allumes_last():
+    with open("/data/allumes.log", "r", encoding="utf8") as log:
+        hist = log.read()
+        hist = [json.loads(x) for x in hist.split("\n")[-288:-1]]
 
     return jsonify(hist)
+
 
 if __name__ == '__main__':
     app.run()
