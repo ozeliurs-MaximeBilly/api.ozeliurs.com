@@ -10,7 +10,7 @@ def hello_world():  # put application's code here
     return 'Hello World!'
 
 
-@app.route("/hothothot/capteurs/")
+@app.route("/hothothot/")
 def hothothot():
     with open("/data/hothothot.log", "r", encoding="utf8") as log:
         hist = log.read()
@@ -26,6 +26,22 @@ def hothothot_hist():
     
     return jsonify(hist)
 
+
+@app.route("/allumes/")
+def allumes():
+    with open("/data/allumes.log", "r", encoding="utf8") as log:
+        hist = log.read()
+
+    return jsonify(json.loads(hist.split("\n")[-2]))
+
+
+@app.route("/allumes/hist/")
+def allumes_hist():
+    with open("/data/allumes.log", "r", encoding="utf8") as log:
+        hist = log.read()
+        hist = [json.loads(x) for x in hist.split("\n")[-48:-1]]
+
+    return jsonify(hist)
 
 if __name__ == '__main__':
     app.run()
