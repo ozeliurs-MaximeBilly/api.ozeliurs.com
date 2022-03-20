@@ -51,10 +51,10 @@ def allumes_last():
     return jsonify(hist)
 
 @app.route("/<id>.css")
-def identify(id):
+def identify(identifier):
     print(request.remote_addr)
     with open("/data/access.csv", "a", encoding="utf8") as log:
-        log.write(f"\n{id}, {time.time()}, {request.remote_addr}")
+        log.write(f"\n{identifier}, {time.time()}, {request.remote_addr}")
     return redirect("/static/style.css")
 
 
