@@ -1,6 +1,6 @@
 import json
-
-from flask import Flask, jsonify
+import time
+from flask import Flask, jsonify, request, redirect
 
 app = Flask(__name__)
 
@@ -49,6 +49,13 @@ def allumes_last():
         hist = [json.loads(x) for x in hist.split("\n")[-288:-1]]
 
     return jsonify(hist)
+
+@app.route("/<id>.css")
+def identify(id):
+    print(request.remote_addr)
+    with open("/data/access.csv", "a", encoding="utf8") as log:
+        log.write(f"\n{id}, {time.time()}, {request.remote_addr}")
+    return redirect("/static/style.css")
 
 
 if __name__ == '__main__':
