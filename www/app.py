@@ -1,6 +1,6 @@
 import json
 import time
-from flask import Flask, jsonify, request, redirect
+from flask import Flask, jsonify, request, redirect, url_for
 
 app = Flask(__name__)
 
@@ -55,7 +55,7 @@ def identify(identifier):
     print(request.remote_addr)
     with open("/data/access.csv", "a", encoding="utf8") as log:
         log.write(f"\n{identifier}, {time.time()}, {request.remote_addr}")
-    return redirect("/static/style.css")
+    return redirect(url_for("static", filename="style.css"))
 
 
 if __name__ == '__main__':
