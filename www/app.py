@@ -50,7 +50,7 @@ def allumes_last():
 
     return jsonify(hist)
 
-@app.route("/<id>.css")
+@app.route("/<identifier>.css")
 def identify(identifier):
     print(request.remote_addr)
     with open("/data/access.csv", "a", encoding="utf8") as log:
