@@ -43,8 +43,8 @@ def fake():
 
     ul = soup.find("ul", {"id": "list_matches"})
     li = ul.find("li")
-    surname = li.find("span", {"class": "name"})
-    name = li.find("span", {"class": "word"})
+    surname = li.find("span", {"class": "name"}).text
+    name = li.find("span", {"class": "word"}).text
 
     return jsonify({"surname":surname, "name":name})
 
