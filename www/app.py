@@ -1,5 +1,7 @@
 import json
 import time
+import requests
+from bs4 import BeautifulSoup as bs
 from flask import Flask, jsonify, request, redirect, url_for
 
 app = Flask(__name__)
@@ -33,6 +35,18 @@ def identify(identifier):
     with open("/data/access.csv", "a", encoding="utf8") as log:
         log.write(f"\n{identifier}, {time.time()}, {request.remote_addr}")
     return redirect(url_for("static", filename="style.css"))
+
+
+@app.route("/fake/")
+def fake():
+    soup = bs(requests.get("http://www.lorraine-ipsum.fr").text)
+
+    ul = soup.find("ul", {"id": "list_matches"})
+    li = ul.find("li")
+    surname = li.find("span", {"class": "name"})
+    name = li.find("span", {"class": "word"})
+
+    return jsonify({"surname":surname, "name":name})
 
 
 if __name__ == '__main__':
