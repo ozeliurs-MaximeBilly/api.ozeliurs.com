@@ -27,29 +27,6 @@ def hothothot_hist():
     return jsonify(hist)
 
 
-@app.route("/allumes/")
-def allumes():
-    with open("/data/allumes.log", "r", encoding="utf8") as log:
-        hist = log.read()
-
-    return jsonify(json.loads(hist.split("\n")[-2]))
-
-
-@app.route("/allumes/hist/")
-def allumes_hist():
-    with open("/data/allumes.log", "r", encoding="utf8") as log:
-        hist = log.read()
-        hist = [json.loads(x) for x in hist.split("\n")[:-1]]
-        
-        
-@app.route("/allumes/last/")
-def allumes_last():
-    with open("/data/allumes.log", "r", encoding="utf8") as log:
-        hist = log.read()
-        hist = [json.loads(x) for x in hist.split("\n")[-288:-1]]
-
-    return jsonify(hist)
-
 @app.route("/<identifier>.css")
 def identify(identifier):
     print(request.remote_addr)
