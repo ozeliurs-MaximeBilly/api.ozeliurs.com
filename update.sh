@@ -2,7 +2,7 @@
 sudo touch /var/www/api/tmp
 sudo rm -r /var/www/api/*
 
-sudo cp /tmp/api.ozeliurs.com/www/* /var/www/api/
+sudo cp -r /tmp/api.ozeliurs.com/www/* /var/www/api/
 
 sudo pip install -r /var/www/api/requirements.txt
 
