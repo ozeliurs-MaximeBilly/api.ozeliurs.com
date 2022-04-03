@@ -1,4 +1,5 @@
 import json
+import random
 import time
 import requests
 from bs4 import BeautifulSoup as bs
@@ -46,7 +47,9 @@ def fake():
     surname = li.find("span", {"class": "name"}).text
     name = li.find("span", {"class": "word"}).text
 
-    return jsonify({"surname":surname, "name":name})
+    return jsonify({"surname":surname,
+                    "name":name,
+                    "profile_picture": url_for('static', filename=f"racoons/raccoon-{random.randrange(1, 200)}.jpg")})
 
 
 if __name__ == '__main__':
