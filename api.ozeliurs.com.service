@@ -5,7 +5,7 @@ After=network.target
 [Service]
 User=www-data
 Group=www-data
-WorkingDirectory=/var/www/api/
+WorkingDirectory=/var/www/api/www/
 
 ExecStart=gunicorn --access-logfile - --workers 3 --bind unix:/var/www/api/api.sock app:app
 
