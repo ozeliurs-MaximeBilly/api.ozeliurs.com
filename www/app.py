@@ -49,7 +49,7 @@ def fake():
 
     return jsonify({"surname":surname,
                     "name":name,
-                    "profile_picture": url_for('static', filename=f"racoons/raccoon-{random.randrange(1, 200)}.jpg")})
+                    "profile_picture": "https://api.ozeliurs.com" + url_for('static', filename=f"racoons/raccoon-{random.randrange(1, 200)}.jpg")})
 
 
 if __name__ == '__main__':
