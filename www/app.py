@@ -4,6 +4,7 @@ import time
 import requests
 from bs4 import BeautifulSoup as bs
 from flask import Flask, jsonify, request, redirect, url_for
+from pathlib import Path
 
 app = Flask(__name__)
 
@@ -42,10 +43,20 @@ def identify(identifier):
 def fake():
     soup = bs(requests.get("http://www.lorraine-ipsum.fr").text)
 
+    try:
+        fake_ids = json.loads(Path("/data/funny.json").read_text())
+    except:
+        fake_ids = []
+
     ul = soup.find("ul", {"id": "list_matches"})
-    li = ul.find("li")
-    surname = li.find("span", {"class": "name"}).text
-    name = li.find("span", {"class": "word"}).text
+    for li in ul.findAll("li"):
+        surname = li.find("span", {"class": "name"}).text
+        name = li.find("span", {"class": "word"}).text
+
+        if {"surname":surname, "name":name} not in fake_ids:
+            fake_ids.append({"surname":surname, "name":name})
+
+    Path("/data/funny.json").write_text(json.dumps(fake_ids, indent=4))
 
     return jsonify({"surname":surname,
                     "name":name,
