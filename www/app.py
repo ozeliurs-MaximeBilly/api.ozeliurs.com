@@ -63,5 +63,20 @@ def fake():
                     "profile_picture": "https://api.ozeliurs.com" + url_for('static', filename=f"raccoons/raccoon-{random.randrange(1, 200)}.jpg")})
 
 
+@app.route("/imdb/", defaults={'u_path': ''})
+@app.route('/imdb/<path:u_path>')
+def imdb_cache(u_path: str):
+    cache = json.loads(Path("/data/imdb_cache.json").read_text())
+    if u_path.__hash__() in cache:
+        return cache[u_path.__hash__()]
+    else:
+        req = requests.get(f"https://imdb-api.com/{u_path}")
+        if req.json()["errorMessage"] == "":
+            cache[u_path.__hash__()] = req.text
+            Path("/data/imdb_cache.json").write_text(json.dumps(cache, indent=4))
+
+        return req.text
+
+
 if __name__ == '__main__':
     app.run()
