@@ -5,6 +5,7 @@ import requests
 from bs4 import BeautifulSoup as bs
 from flask import Flask, jsonify, request, redirect, url_for
 from pathlib import Path
+from hashlib import md5
 
 app = Flask(__name__)
 
@@ -67,12 +68,13 @@ def fake():
 @app.route('/imdb/<path:u_path>')
 def imdb_cache(u_path: str):
     cache = json.loads(Path("/data/imdb_cache.json").read_text())
-    if u_path.__hash__() in cache:
-        return cache[u_path.__hash__()]
+    u_path_hash = md5(u_path.encode()).hexdigest()
+    if u_path_hash in cache:
+        return cache[u_path_hash]
     else:
         req = requests.get(f"https://imdb-api.com/{u_path}")
         if req.json()["errorMessage"] == "":
-            cache[u_path.__hash__()] = req.text
+            cache[u_path_hash] = req.text
             Path("/data/imdb_cache.json").write_text(json.dumps(cache, indent=4))
 
         return req.text
