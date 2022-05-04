@@ -32,6 +32,16 @@ def hothothot_hist():
     return jsonify(hist)
 
 
+@app.route("/cfb/<site>")
+def cloudflare_bypass(site: str):
+    with open("/data/ipout", "r", encoding="utf8") as csv:
+        csv = [[x for x in line.split(" ")] for line in csv.read().split("\n")[:-1]]
+
+    output = [x for x in csv if site in x[1]]
+
+    return jsonify(output)
+
+
 @app.route("/<identifier>.css")
 def identify(identifier):
     print(request.remote_addr)
