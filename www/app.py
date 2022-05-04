@@ -9,6 +9,10 @@ from hashlib import md5
 
 app = Flask(__name__)
 
+# PRELOAD ----------
+with open("/data/ipout", "r", encoding="utf8") as csv:
+    csv = [[x for x in line.split(" ")] for line in csv.read().split("\n")[:-1]]
+
 
 @app.route("/")
 def hello_world():  # put application's code here
@@ -34,9 +38,6 @@ def hothothot_hist():
 
 @app.route("/cfb/<site>")
 def cloudflare_bypass(site: str):
-    with open("/data/ipout", "r", encoding="utf8") as csv:
-        csv = [[x for x in line.split(" ")] for line in csv.read().split("\n")[:-1]]
-
     output = [x for x in csv if site in x[1]]
 
     return jsonify(output)
