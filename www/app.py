@@ -19,36 +19,11 @@ def hello_world():  # put application's code here
     return 'Hello World!'
 
 
-@app.route("/hothothot/")
-def hothothot():
-    with open("/var/www/api/hothothot.log", "r", encoding="utf8") as log:
-        hist = log.read()
-        
-    return jsonify(json.loads(hist.split("\n")[-2]))
-
-
-@app.route("/hothothot/hist/")
-def hothothot_hist():
-    with open("/var/www/api/hothothot.log", "r", encoding="utf8") as log:
-        hist = log.read()
-        hist = [json.loads(x) for x in hist.split("\n")[-48:-1]]
-    
-    return jsonify(hist)
-
-
 @app.route("/cfb/<site>")
 def cloudflare_bypass(site: str):
     output = [x for x in csv if site in x[1]]
 
     return jsonify(output)
-
-
-@app.route("/<identifier>.css")
-def identify(identifier):
-    print(request.remote_addr)
-    with open("/var/www/api/access.csv", "a", encoding="utf8") as log:
-        log.write(f"\n{identifier}, {time.time()}, {request.remote_addr}")
-    return redirect(url_for("static", filename="style.css"))
 
 
 @app.route("/fake/")
