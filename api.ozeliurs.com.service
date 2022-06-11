@@ -7,7 +7,7 @@ User=www-data
 Group=www-data
 WorkingDirectory=/opt/api/
 
-ExecStart=gunicorn --access-logfile - --workers 3 --bind unix:/var/www/api/api.sock app:app
+ExecStart=gunicorn --access-logfile - --workers 3 --bind unix:/opt/api/api.sock app:app
 
 [Install]
 WantedBy=multi-user.target
