@@ -1,6 +1,5 @@
 import json
 import random
-import time
 import requests
 from bs4 import BeautifulSoup as bs
 from flask import Flask, jsonify, request, redirect, url_for
