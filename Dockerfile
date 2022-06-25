@@ -1,7 +1,5 @@
 FROM alpine:latest
 
-RUN apk add --update python3 python3-pip
-
 COPY ./www /app
 
 RUN chmod 777 /app
