@@ -1,4 +1,6 @@
-FROM python:3.7.3-slim
+FROM alpine:latest
+
+RUN apk add --update python3 python3-pip
 
 COPY ./www /app
 
