@@ -9,7 +9,7 @@ from hashlib import md5
 app = Flask(__name__)
 
 # PRELOAD ----------
-with open("/var/www/api/ipout", "r", encoding="utf8") as csv:
+with open("/data/ipout", "r", encoding="utf8") as csv:
     csv = [[x for x in line.split(" ")] for line in csv.read().split("\n")[:-1]]
 
 
@@ -30,7 +30,7 @@ def fake():
     soup = bs(requests.get("http://www.lorraine-ipsum.fr").text)
 
     try:
-        fake_ids = json.loads(Path("/var/www/api/funny.json").read_text())
+        fake_ids = json.loads(Path("/data/funny.json").read_text())
     except:
         fake_ids = []
 
@@ -42,7 +42,7 @@ def fake():
         if {"surname":surname, "name":name} not in fake_ids:
             fake_ids.append({"surname":surname, "name":name})
 
-    Path("/var/www/api/funny.json").write_text(json.dumps(fake_ids, indent=4))
+    Path("/data/funny.json").write_text(json.dumps(fake_ids, indent=4))
 
     return jsonify({"surname":surname,
                     "name":name,
@@ -52,7 +52,7 @@ def fake():
 @app.route("/imdb/", defaults={'u_path': ''})
 @app.route('/imdb/<path:u_path>')
 def imdb_cache(u_path: str):
-    cache = json.loads(Path("/var/www/api/imdb_cache.json").read_text())
+    cache = json.loads(Path("/data/imdb_cache.json").read_text())
     u_path_hash = md5(u_path.encode()).hexdigest()
     if u_path_hash in cache:
         return cache[u_path_hash]
@@ -60,7 +60,7 @@ def imdb_cache(u_path: str):
         req = requests.get(f"https://imdb-api.com/{u_path}")
         if req.json()["errorMessage"] == "":
             cache[u_path_hash] = req.text
-            Path("/var/www/api/imdb_cache.json").write_text(json.dumps(cache, indent=4))
+            Path("/data/imdb_cache.json").write_text(json.dumps(cache, indent=4))
 
         return req.text
 
