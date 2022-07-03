@@ -1,3 +1,4 @@
+import time
 import json
 import random
 import requests
@@ -25,6 +26,7 @@ def ip_info(ip):
     if info.exists():
         return jsonify(json.loads(info.read_text()))
     else:
+        time.sleep(2)
         req = requests.get(f"http://ip-api.com/json/{ip}?fields=66842623").json()
         info.write_text(json.dumps(req, indent=4))
         return jsonify(req)
