@@ -18,6 +18,18 @@ def hello_world():  # put application's code here
     return 'Hello World!'
 
 
+@app.route("/ip/<ip>")
+def ip_info(ip):
+    info = Path(f"/data/ip/{ip}.json")
+    info.parent.mkdir(exist_ok=True, parents=True)
+    if info.exists():
+        return info.read_text()
+    else:
+        req = requests.get(f"http://ip-api.com/json/{ip}?fields=66842623").text
+        info.write_text(req)
+        return req
+
+
 @app.route("/cfb/<site>")
 def cloudflare_bypass(site: str):
     output = [x for x in csv if site in x[1]]
