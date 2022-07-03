@@ -25,7 +25,7 @@ def ip_info(ip):
     if info.exists():
         return jsonify(json.loads(info.read_text()))
     else:
-        req = requests.get(f"http://ip-api.com/json/{ip}?fields=66842623").json
+        req = requests.get(f"http://ip-api.com/json/{ip}?fields=66842623").json()
         info.write_text(json.dumps(req, indent=4))
         return jsonify(req)
 
