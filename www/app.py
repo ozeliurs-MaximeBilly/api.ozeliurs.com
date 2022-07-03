@@ -23,11 +23,11 @@ def ip_info(ip):
     info = Path(f"/data/ip/{ip}.json")
     info.parent.mkdir(exist_ok=True, parents=True)
     if info.exists():
-        return info.read_text()
+        return jsonify(json.loads(info.read_text()))
     else:
-        req = requests.get(f"http://ip-api.com/json/{ip}?fields=66842623").text
-        info.write_text(req)
-        return req
+        req = requests.get(f"http://ip-api.com/json/{ip}?fields=66842623").json
+        info.write_text(json.dumps(req, indent=4))
+        return jsonify(req)
 
 
 @app.route("/cfb/<site>")
