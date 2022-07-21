@@ -10,8 +10,11 @@ from hashlib import md5
 app = Flask(__name__)
 
 # PRELOAD ----------
-with open("/data/ipout", "r", encoding="utf8") as csv:
-    csv = [[x for x in line.split(" ")] for line in csv.read().split("\n")[:-1]]
+try:
+    with open("/data/ipout", "r", encoding="utf8") as csv:
+        csv = [[x for x in line.split(" ")] for line in csv.read().split("\n")[:-1]]
+except:
+    csv = []
 
 
 @app.route("/")
